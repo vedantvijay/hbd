@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.js"></script>
+        <meta charset="UTF-8">
+        <title>Birthday Gift </title>
+    </head>
+    <body>
+            <div class="giftbox">
+                <div class="cover">
+                    <div></div>
+                </div>
+                
+                <div class="box"></div>
+                <style>
+                    @import url("https://fonts.googleapis.com/css?family=Kaushan+Script");
+html, body, .container {
+  height: 100%;
+  font-family: 'Kaushan Script','Sail', cursive;
+}
+
+body {
+  background: #e74;
+  overflow: hidden;
+  background:red;
+  padding:0;margin:0;
+  box-sizing:border-box;
+}
+
+.giftbox {
+  position: absolute;
+  width: 300px;
+  height: 200px;
+  left: 50%;
+  margin-left: -150px;
+  bottom: 40px;
+  z-index: 10;
+}
+.giftbox > div {
+  background:pink;
+  position: absolute;
+}
+
+.giftbox:after {
+  position: absolute;
+  color: #fff;
+  width: 100%;
+  content: "Click Me!";
+  left: 0;
+  bottom: 0;
+  font-size: 24px;
+  text-align: center;
+  transform: rotate(-20deg);
+  transform-origin: 0 0;
+}
+.cover {
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 25%;
+  z-index: 2;
+}
+.cover:before {
+    content:"";
+    position:absolute;
+    left:40%;
+    width:20%;
+    height:100%;
+    background:#fdc56d;
+}
+.giftbox > div:after {
+  position: absolute;
+  content: "";
+  top: 0;
+}
+.giftbox > div:before{
+    position: absolute;
+  content: "";
+  top: 0;
+}
+.box {
+  right: 5%;
+  left: 5%;
+  height: 80%;
+  bottom: 0;
+}
+.box:before {
+  width: 50px;
+  height: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fdc56d;
+}
+.box:after {
+  width: 100%;
+  height: 30px;
+  background: rgba(0, 0, 0, 0.2);
+}
+canvas{
+    display:none;
+    z-index:-10;
+}
+@keyframes down{
+    0%{}
+    100%{transform:translateY(500px);}
+}
+@keyframes up{
+    0%{}
+    100%{transform:translate(100vw,-300px) rotate(60deg);}
+}
+                </style>
+                <script>
+                    
+                    const qs = (query) =>{
+    return document.querySelector(query)
+}
+
+window.onload = () =>{
+    
+}
+
+class Bubble{
+    constructor(x,y){
+        this.x=x;
+        this.y=y;
+        this.r=0;
+        this.opacity=100;
+        this.colR=random(225)
+        this.colG=random(225)
+        this.colB=random(225)
+    }
+    inflate(){
+        this.r+=4;
+    }
+    fade(){
+    if(this.r >= 25){
+        this.opacity -=1.5;
+        }
+    }
+    display(){
+    fill(this.colR, this.colG, this.colB, this.opacity);
+    noStroke()
+        ellipse(this.x,this.y,this.r,this.r);
+    }
+}
+
+
+function setup(){
+createCanvas(innerWidth,innerHeight)
+    qs(".giftbox").addEventListener("click", function(){
+        qs(".box").style.animation="down 1s linear";
+        qs(".cover").style.animation="up 1s linear";
+       qs("canvas").style.display="block";
+        
+        setTimeout(function(){
+        qs(".giftbox").style.display="none";
+          },1000)
+    })
+}
+var bubbles =[];
+var count =0;
+var textY=innerHeight-40;
+var x=0;
+function draw(){
+    background(random(200,225),180,random(200,225))
+    if(random(1)<0.1){
+    let x =random(innerWidth)
+    let y = random(innerHeight)
+        bubbles.push(new Bubble(x, y))
+    }
+    for(bubble of bubbles){
+        bubble.inflate()
+        bubble.fade()
+        bubble.display()
+    }
+    fill(random(180,225),100,random(180,225))
+    textSize(40)
+    textFont("Kaushan Script")
+   textAlign(CENTER)
+   if(x>=100){
+   if(textY>=height/2){
+       textY-=2;
+   }
+   text("Happy Birthday\nbunnu mama",width/2,textY)
+
+  if(count%100==0){
+   bubbles.splice(0,5)
+  } 
+  count++;
+  }
+  x++;    
+}
+                </script>
+        
+    </body>
+</html>
